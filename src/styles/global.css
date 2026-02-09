@@ -1,0 +1,215 @@
+/* ===== 基础重置 ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
+  line-height: 1.7;
+  background: #fafafa;
+  color: #222;
+}
+
+/* ===== 页面布局 ===== */
+main {
+  max-width: 760px;
+  margin: 3rem auto;
+  padding: 0 1.2rem;
+}
+
+header {
+  margin-bottom: 2rem;
+}
+
+header a {
+  text-decoration: none;
+  color: #222;
+  font-weight: 600;
+}
+
+/* ===== 标题 ===== */
+h1, h2, h3 {
+  line-height: 1.3;
+}
+
+h1 {
+  margin-bottom: 1.2rem;
+}
+
+h2 {
+  margin-top: 2.5rem;
+}
+
+/* ===== 正文 ===== */
+article p {
+  margin: 1rem 0;
+}
+
+article ul {
+  padding-left: 1.4rem;
+}
+
+article li {
+  margin: 0.4rem 0;
+}
+
+/* ===== 代码块 ===== */
+pre {
+  background: #f4f4f4;
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 6px;
+}
+
+code {
+  background: #f4f4f4;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+/* ===== KaTeX ===== */
+.katex {
+  font-size: 1.05em;
+}
+
+/* ===== 链接基础风格 ===== */
+a {
+  color: #2563eb;            /* 柔和蓝 */
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+a:hover {
+  color: #1e40af;
+  border-bottom-color: currentColor;
+}
+
+/* ===== 首页文章列表 ===== */
+ul li a {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+article a {
+  border-bottom-style: dotted;
+}
+
+/* ===== 自动目录（TOC） ===== */
+.toc {
+  margin: 2rem 0;
+  padding: 1rem 1.2rem;
+  background: #f8f8f8;
+  border-left: 4px solid #2563eb;
+  font-size: 0.95rem;
+}
+
+.toc strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.toc li {
+  margin: 0.3rem 0;
+}
+
+.toc li.depth-3 {
+  padding-left: 1rem;
+}
+
+.toc li.depth-4 {
+  padding-left: 2rem;
+}
+
+.toc a {
+  border-bottom: none;
+}
+
+/* ===== 文章页双栏布局 ===== */
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* ===== 正文 ===== */
+.post-content {
+  min-width: 0;
+}
+
+/* ===== 目录侧边栏 ===== */
+.post-toc {
+  position: sticky;
+  top: 2rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.post-toc nav {
+  border-left: 2px solid #e5e7eb;
+  padding-left: 1rem;
+}
+
+.post-toc strong {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.post-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-toc li {
+  margin: 0.35rem 0;
+}
+
+.post-toc li.depth-3 {
+  padding-left: 1rem;
+}
+
+.post-toc li.depth-4 {
+  padding-left: 2rem;
+}
+
+.post-toc a {
+  color: #555;
+  border-bottom: none;
+}
+
+.post-toc a:hover {
+  color: #2563eb;
+}
+
+/* ===== 响应式：窄屏回到正文上方 ===== */
+@media (max-width: 1024px) {
+  .post-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .post-toc {
+    position: static;
+    margin-bottom: 2rem;
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .post-toc nav {
+    border-left: none;
+    background: #f8f8f8;
+    padding: 1rem;
+  }
+}

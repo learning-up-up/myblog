@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await post.render();
+---
+
+<BaseLayout title={post.data.title}>
+  <div class="post-layout">
+    <article class="post-content">
+      <h1>{post.data.title}</h1>
+      <Content />
+    </article>
+
+    {headings.length > 0 && (
+      <aside class="post-toc">
+        <nav>
+          <strong>目录</strong>
+          <ul>
+            {headings.map(h => (
+              <li class={`depth-${h.depth}`}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    )}
+  </div>
+</BaseLayout>
+
