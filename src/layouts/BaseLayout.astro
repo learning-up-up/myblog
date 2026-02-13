@@ -2,6 +2,7 @@
 import Header from '../component/Header.astro';
 // 全局样式
 import '../styles/global.css';
+import '../styles/codeblock.css';
 
 const {
   title = "My Blog",
@@ -25,8 +26,22 @@ const {
   <body>
     <Header />
     <main>
-
       <slot />
+      <script>
+      document.querySelectorAll('pre').forEach((pre) => {
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerText = '复制';
+        btn.onclick = function () {
+          navigator.clipboard.writeText(pre.innerText).then(() => {
+            btn.innerText = '已复制';
+            setTimeout(() => (btn.innerText = '复制'), 2000);
+          });
+        };
+        pre.style.position = 'relative';
+        pre.appendChild(btn);
+      });
+    </script>
     </main>
   </body>
 </html>
