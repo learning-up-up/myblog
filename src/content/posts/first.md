@@ -1,5 +1,6 @@
 ---
 title: 'My first blog'
+pubDate: 2026-02-13
 ---
 
 # 正文

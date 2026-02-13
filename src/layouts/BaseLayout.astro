@@ -1,4 +1,8 @@
 ---
+import Header from '../component/Header.astro';
+// 全局样式
+import '../styles/global.css';
+
 const {
   title = "My Blog",
   showHomeLink = true, // 👈 默认显示
@@ -9,10 +13,7 @@ const {
 <html lang="zh">
   <head>
     <meta charset="UTF-8" />
-    <title><slot name="title" /></title>
-    
-    <!-- 全局样式 -->
-    <link rel="stylesheet" href="/src/styles/global.css" />
+    <title>{title ?? "Myblog"}</title>
     
     <!-- KaTeX CSS -->
     <link
@@ -20,13 +21,10 @@ const {
       href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
     />
   </head>
+  
   <body>
+    <Header />
     <main>
-      {showHomeLink && (
-        <header>
-          <a href={import.meta.env.BASE_URL}>← 首页</a>
-        </header>
-      )}
 
       <slot />
     </main>

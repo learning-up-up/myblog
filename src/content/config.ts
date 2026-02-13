@@ -4,7 +4,8 @@ const posts = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.string().optional(),
+    pubDate: z.date(),
+    abstract: z.string().optional(),// 文章摘要
   }),
 });
 

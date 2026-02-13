@@ -3,16 +3,70 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('posts');
+
+// 按日期倒序排列
+posts.sort((a, b) => 
+  b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+// 自动摘要
+function generateSummary(content: string, wordLimit: number = 50): string {
+  let text = content;
+  text = text.replace(/^#\s+.*\n/, '');
+  text = text.replace(/```[\s\S]*?```/g, '');
+  text = text.replace(/`[^`]*`/g, '');
+  text = text.replace(/!\[[^\]]*\]\([^)]+\)/g, '');
+  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+  text = text.replace(/^#+\s+/gm, '');
+  text = text.replace(/[*_~]/g, '');
+  text = text.replace(/\s+/g, ' ').trim();
+
+  const words = text.split(' ');
+
+  if (words.length <= wordLimit) return text;
+
+  return words.slice(0, wordLimit).join(' ') + '…';
+}
+
+
+// 获取文章摘要，优先使用 abstract
+import type { CollectionEntry } from 'astro:content';
+
+function getPostSummary(post: CollectionEntry<'posts'>): string {
+  return post.data.abstract
+    ? post.data.abstract
+    : generateSummary(post.body, 50);
+}
+
 ---
 
-<BaseLayout title = "首页" showHomeLink = {false}>
-  <h1>我的博客</h1>
+<BaseLayout title="sakanaction的博客" showHomeLink={false}>
+  
+  <section class="home-intro">
+    <h1>sakanaction的博客</h1>
+    <p>
+      一个人工智能专业本科生的博客，记录学习内容。
+    </p>
+  </section>
 
-  <ul>
-    {posts.map(post => (
-      <li>
-        <a href={`./posts/${post.slug}`}>{post.data.title}</a>
-      </li>
-    ))}
-  </ul>
+  <section class="home-posts">
+    <h2>文章</h2>
+    <div class="post-grid">
+      {posts.map(post => (
+        <a href={post.slug.startsWith('posts/')
+          ? `/myblog/${post.slug}/`
+          : `/myblog/posts/${post.slug}/`}>
+          <h3 class="post-title">{post.data.title}</h3>
+
+          <p class="post-abstract">
+              {getPostSummary(post)}
+          </p>
+
+          <div class="post-meta">
+            {new Date(post.data.pubDate).toLocaleDateString()}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
 </BaseLayout>
