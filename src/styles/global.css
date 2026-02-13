@@ -223,14 +223,17 @@ a:hover {
 /* ===== 文章页双栏布局 ===== */
 .post-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px;
+  grid-template-columns: 1fr minmax(220px, 250px);
   gap: 2.5rem;
   align-items: start;
+  max-width: 1200px; /* 最大宽度 */
+  margin: 0 auto;    /* 居中 */
+  padding: 0 1rem;   /* 页边距，避免靠边 */
 }
 
 /* ===== 正文 ===== */
 .post-content {
-  min-width: 0;
+  min-width: 600px;
 }
 
 /* ===== 目录侧边栏 ===== */
