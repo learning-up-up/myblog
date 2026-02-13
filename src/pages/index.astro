@@ -6,7 +6,7 @@ const posts = await getCollection('posts');
 
 // 按日期倒序排列
 posts.sort((a, b) => 
-  b.data.pubDate.getTime() - a.data.pubDate.getTime()
+  b.data.pubdate.getTime() - a.data.pubdate.getTime()
 );
 
 // 自动摘要
@@ -63,7 +63,7 @@ function getPostSummary(post: CollectionEntry<'posts'>): string {
           </p>
 
           <div class="post-meta">
-            {new Date(post.data.pubDate).toLocaleDateString()}
+            {new Date(post.data.pubdate).toLocaleDateString()}
           </div>
         </a>
       ))}
