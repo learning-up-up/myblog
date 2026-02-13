@@ -10,7 +10,7 @@ posts.sort((a, b) =>
 );
 
 // 自动摘要
-function generateSummary(content: string, wordLimit: number = 50): string {
+function generateSummary(content: string, wordLimit: number = 15): string {
   let text = content;
   text = text.replace(/^#\s+.*\n/, '');
   text = text.replace(/```[\s\S]*?```/g, '');
