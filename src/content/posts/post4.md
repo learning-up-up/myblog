@@ -26,14 +26,14 @@ $$
 
 考虑关于 $x$ 的函数 $\theta_P(x) = \max_{\alpha, \beta: \alpha_i\geq 0} L(x, \alpha, \beta)$
 
-对于不符合不等式约束的 $x$ ，取对应的 $\alpha_i \to +\infin$ 那么 $\theta_P$的取值就趋于 $+\infin$。同样的，对于不满足等式约束的 $x$ 可以通过对应的 $\beta_j$ 的取值，使 $\theta_P$ 的取值趋于 $+\infin$。
+对于不符合不等式约束的 $x$ ，取对应的 $\alpha_i \to +\infty$ 那么 $\theta_P$的取值就趋于 $+\infty$。同样的，对于不满足等式约束的 $x$ 可以通过对应的 $\beta_j$ 的取值，使 $\theta_P$ 的取值趋于 $+\infty$。
 
 因此可以得到：
 
 $$
 \theta_P(x) = \begin{cases}
 f(x) \quad x 满足约束条件\\
-+\infin \quad \text{else}
++\infty \quad \text{else}
 \end{cases}
 $$
 
