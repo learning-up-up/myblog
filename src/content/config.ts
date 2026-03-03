@@ -6,6 +6,7 @@ const posts = defineCollection({
     title: z.string(),
     pubdate: z.date(),
     abstract: z.string().optional(),// 文章摘要
+    category: z.string(),
   }),
 });
 
