@@ -1,12 +1,12 @@
 ---
-title: '支持向量机一：线性可分'
+title: '支持向量机一：线性可分问题'
 pubdate: 2026-03-03
 category: '机器学习'
 ---
 
 支持向量机（SVM）是一种二类分类模型，通过定义在特征空间上的间隔最大分类器从而有别于感知机模型。
 
-## 线性可分支持向量机
+## 线性可分支持向量机与硬间隔最大化
 
 给定一个特征空间上的训练集：
 
@@ -128,5 +128,60 @@ $$
 
 ## 软间隔最大化
 
+以上构建的模型建立在训练集线性可分的基础上，但线性可分实际上是一个很强的前提，因此考虑引入一个对于间隔的松弛变量 $\zeta$，对于两个类别中的极端个例，允许出现在间隔中，甚至被误分类。
 
+引入松弛变量，原始问题就变为：
 
+$$
+\begin{split}
+\min \quad & \frac{1}{2}||\omega||^2 + C\sum_{i = 1}^N\zeta_i\\
+\text{s.t.} \quad & y_i(\omega\cdot x_i + b) \geq 1 - \zeta_i, \quad i = 1, 2, \cdots, N \\
+& \zeta_i \geq 0, i = 1, 2, \cdots, N
+\end{split}
+$$
+
+在这个问题中 $C$ 是惩罚参数，即模型允许存在误分类，但是目标函数中会对误分类进行惩罚，最终通过最优化达到平衡。
+
+### 对偶问题
+
+该问题求对偶问题的方式基本上是一致的，首先得到原始的对偶问题：
+
+$$
+\begin{split}
+\max_{\alpha, \beta} \min_{\omega, b, \zeta} \quad & \frac{1}{2}||\omega||^2 + C\sum_{i = 1}^N\zeta_i + \sum_{i = 1}^N \alpha_i(1 - \zeta_i) - \sum_{i = 1}^N\alpha_iy_i(\omega \cdot x_i + b) - \sum_{i = 1}^N \beta_i\zeta_i\\
+\text{s.t.} \quad & \alpha_i \geq 0, \beta_i \geq 0
+\end{split}
+$$
+
+首先求极小值：
+
+$$
+\begin{split}
+\nabla_\omega L & = \omega - \sum_{i = 1}^N \alpha_iy_ix_i = 0\\
+\nabla_b L & = -\sum_{i = 1}^N\alpha_iy_i = 0\\
+\nabla_{\zeta_i} L & = C - \alpha_i  - \beta_i= 0
+\end{split}
+$$
+
+代回可以将原问题转化为：
+
+$$
+\begin{split}
+\min_{\alpha} \quad & \frac{1}{2}\sum_{i = 1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jx_i \cdot x_j - \sum_{i = 1}^N\alpha_i\\
+\text{s.t.} \quad & \sum_{i = 1}^N\alpha_iy_i = 0\\
+& C =  \alpha_i + \beta_i\\
+& \alpha_i \geq 0, \beta_i \geq 0, i = 1, 2, \cdots, N
+\end{split}
+$$
+
+通过等式约束消去 $\beta_i$ 来约束变量可以得到
+
+$$
+\begin{split}
+\min_{\alpha} \quad & \frac{1}{2}\sum_{i = 1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jx_i \cdot x_j - \sum_{i = 1}^N\alpha_i\\
+\text{s.t.} \quad & \sum_{i = 1}^N\alpha_iy_i = 0\\
+& 0 \leq \alpha_i \leq C
+\end{split}
+$$
+
+通过解这个最优化问题，得到 $\alpha^*$ ，以线性可分问题类似的方式可以得到 $\omega^*, b^*$
