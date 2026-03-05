@@ -30,8 +30,7 @@ header a {
   font-weight: 600;
 }
 
-/* ===== 顶栏导航 ===== */
-
+/* 顶栏整体 */
 .site-header {
   border-bottom: 1px solid #eee;
   background: #fff;
@@ -41,12 +40,12 @@ header a {
   max-width: 960px;
   margin: 0 auto;
   padding: 1rem 1.2rem;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* logo */
 .logo {
   font-weight: 700;
   font-size: 1.05rem;
@@ -54,22 +53,86 @@ header a {
   color: #111;
 }
 
+/* 导航链接 */
 .nav-links {
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
 
-.nav-links a {
+.nav-links a,
+.dropdown-title {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle; 
   font-size: 0.95rem;
-  text-decoration: none;
   color: #444;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.dropdown:hover .dropdown-title {
   color: #2563eb;
   border-bottom-color: currentColor;
+}
+
+/* dropdown 容器 */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 下拉菜单 */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  min-width: 80px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+
+  padding: 0.4rem 0;
+
+  /* 动画初始状态 */
+  opacity: 0;
+  transform: translateY(-6px);
+  visibility: hidden;
+
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 1000;
+}
+
+/* 下拉菜单项 */
+.dropdown-menu a {
+  display: block;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.7rem;
+  color: #444;
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  background: #f5f7fb;
+  color: #2563eb;
+}
+
+/* hover 显示菜单 */
+.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+/* 可选：专栏小箭头 */
+.dropdown-title::after {
+  content: " ▾";
+  font-size: 0.8rem;
+  color: #888;
+  margin-left: 2px;
 }
 
 /* ===== 标题 ===== */
@@ -157,14 +220,9 @@ a:hover {
   font-weight: 500;
 }
 
-.post-date {
-  font-size: 0.85rem;
-  color: #888;
-}
-
 .post-title {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .post-date {
@@ -174,13 +232,14 @@ a:hover {
 }
 
 .post-abstract {
+  font-size: 0.8rem;
   margin-top: 0.9rem;
   color: #333333bb;
 }
 
 .post-grid {
   display: grid;
-  gap: 1.8rem;
+  gap: 1.5rem;
 }
 
 .post-card {

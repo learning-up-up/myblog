@@ -1,15 +1,28 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('posts');
+const { category } = Astro.params;
 
-// 提取 category 去重
-const categories = [...new Set(posts.map(p => p.data.category).filter(Boolean))];
+export async function getStaticPaths() {
+  const posts = await getCollection("posts"); // 这里一定要在函数里获取
+
+  // 提取所有分类并去重
+  const categories = [...new Set(posts.map(p => p.data.category).filter(Boolean))];
+
+  return categories.map(category => ({
+    params: { category },
+  }));
+}
 
 // 按日期倒序排列
 posts.sort((a, b) => 
   b.data.pubdate.getTime() - a.data.pubdate.getTime()
+);
+
+const filteredPosts = posts.filter(
+  post => post.data.category === category
 );
 
 // 自动摘要
@@ -48,46 +61,28 @@ function getPostSummary(post: CollectionEntry<'posts'>): string {
     : generateSummary(post.body, 50);
 }
 
-// 最近四篇文章
-const recentPosts = posts
-  .sort((a, b) => b.data.pubdate.getTime() - a.data.pubdate.getTime())
-  .slice(0, 4);
 ---
 
-<BaseLayout title="sakanaction的博客" showHomeLink={false}>
+<BaseLayout title = {`专题：${category}`} showHomeLink={false}>
   
   <section class="home-intro">
-    <h1>sakanaction的博客</h1>
-    <p>
-      一个人工智能专业本科生的博客，记录学习内容。
-    </p>
+    <h1>{category} </h1>
   </section>
 
-  <section class="home-columns">
-    <h2>专题</h2>
-    <div class="column-grid">
-      {categories.map(category => (
-        <a 
-          href={`/myblog/columns/${encodeURIComponent(category)}/`} 
-          class="column-card"
-        >
-          <h3>{category}</h3>
-        </a>
-      ))}
-    </div>
-  </section>
+<section class="home-posts">
+    <h2>文章</h2>
 
-  <section class="home-posts">
-    <h2>最近文章</h2>
     <div class="post-grid">
-      {recentPosts.map(post => (
-        <a href={post.slug.startsWith('posts/')
-          ? `/myblog/${post.slug}/`
-          : `/myblog/posts/${post.slug}/`}>
+      {filteredPosts.map(post => (
+        <a
+          href={post.slug.startsWith('posts/')
+            ? `/myblog/${post.slug}/`
+            : `/myblog/posts/${post.slug}/`}
+        >
           <h3 class="post-title">{post.data.title}</h3>
 
           <p class="post-abstract">
-              {getPostSummary(post)}
+            {getPostSummary(post)}
           </p>
 
           <div class="post-meta">
@@ -96,5 +91,13 @@ const recentPosts = posts
         </a>
       ))}
     </div>
+
+    {filteredPosts.length === 0 && (
+      <p style="color:#888;margin-top:1rem;">
+        这个专栏还没有文章
+      </p>
+    )}
+
   </section>
+
 </BaseLayout>
